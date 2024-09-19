@@ -1,0 +1,22 @@
+
+
+services:
+  cloudflare-ddns-jelcano:
+    image: oznu/cloudflare-ddns:latest
+    restart: always
+    environment:
+      - API_KEY=${cloudflare_api_key}
+      - ZONE=${domain}
+      - PROXIED=false
+      - PUID=1000
+      - PGID=1000
+
+  shadowsocks:
+    image: shadowsocks/shadowsocks-libev
+    ports:
+      - "8388:8388/tcp"
+      - "8388:8388/udp"
+    environment:
+      - METHOD=aes-256-gcm
+      - PASSWORD=${shadowsocks_password}
+    restart: always

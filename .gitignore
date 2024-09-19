@@ -1,0 +1,5 @@
+**/.terraform/*
+.terraform.*
+terraform.tfstate*
+key.json
+yandex_id.md
