@@ -11,7 +11,7 @@ For this purpose we have choosen the Yandex Cloud service because is on of the o
 #### Cloudflare account and a domain. (Optional)
 Every time the VM is created the IP will change. To avoid checking the IP every time the service is deployed we are gonna use a Cloudflare docker image to update automatically the DNS IP record for the domain.
 
-# setup
+# Setup
 
 ### Yandex Cloud terraform provider.
 You can find [here](https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-quickstart) where how to set up the Yandex Cloud Terraform provider, but I will summarise it here:
