@@ -1,0 +1,60 @@
+#!/bin/bash
+
+
+KEY_FILE="./terraform/key.json"
+
+
+create_new_key() {
+
+  yc iam key create \
+    --service-account-id {{cloud_id}} \
+    --folder-name default \
+    --output ./terraform/key.json
+
+  yc resource-manager folder add-access-binding {{folder_id}} \
+    --role resource-manager.admin \
+    --subject serviceAccount:{{cloud_id}}
+
+  yc config set service-account-key ./terraform/key.json
+  yc config set cloud-id {{cloud_id}}
+  yc config set folder-id {{folder_id}}
+
+  export YC_TOKEN=$(yc iam create-token)
+  export YC_CLOUD_ID=$(yc config get cloud-id)
+  export YC_FOLDER_ID=$(yc config get folder-id)
+
+}
+
+check_key_validity() {
+  
+    yc config set service-account-key ./terraform/key.json
+    yc config set cloud-id {{cloud_id}}
+    yc config set folder-id {{folder_id}}
+
+    export YC_TOKEN=$(yc iam create-token)
+    export YC_CLOUD_ID=$(yc config get cloud-id)
+    export YC_FOLDER_ID=$(yc config get folder-id)
+
+    yc compute instance list &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo "The key.json is valid and the token is working."
+        return 0
+    else
+        echo "The key.json is invalid or the token has expired."
+        return 1
+    fi
+}
+
+# Check if key.json file exists
+if [ ! -f "$KEY_FILE" ]; then
+    echo "key.json file does not exist."
+    create_new_key
+else
+    # Check if the token is valid by running a `yc` command
+    if check_key_validity; then
+        echo "Token is still valid."
+    else
+        echo "Token is expired or invalid."
+        create_new_key
+    fi
+fi

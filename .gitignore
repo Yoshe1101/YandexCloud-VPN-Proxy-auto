@@ -3,3 +3,6 @@
 terraform.tfstate*
 key.json
 yandex_id.md
+/telegram/venv
+/telegram/scripts/__pycache__
+config.yml.mine

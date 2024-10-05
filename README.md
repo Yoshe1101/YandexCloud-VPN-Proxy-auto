@@ -1,19 +1,43 @@
 # Intro
 
-This is a terraform module/script to create a VM in Yandex Cloud with the Goal of using it as a VPN/Proxy server from the Russian Region.
+This is a terraform module/script to create a VM in Yandex Cloud with a Shadowsocks a VPN/Proxy server from the Russian Region.
 The settings chosen are the cheapest I have found and the idea is to deploy it when is going to be used and then destroy it.
 
 # Requiretments
+
+
 
 #### Yandex Cloud account.
 For this purpose we have choosen the Yandex Cloud service because is on of the only Cloud providers with available VMs in the Russian region.
 
 #### Cloudflare account and a domain. (Optional)
 Every time the VM is created the IP will change. To avoid checking the IP every time the service is deployed we are gonna use a Cloudflare docker image to update automatically the DNS IP record for the domain.
+#### Telegram bot
+Create a telegram bot and get the token.
 
 # Setup
 
-### Yandex Cloud terraform provider.
+### Config.yml file 
+Fill all the fields in the config.yml file to be able to run the service as expected:
+
+```
+#Yandex provider
+cloud_id: ""
+folder_id: ""
+defaul_zone: ""
+networkid: ""
+subnetid: ""
+
+telegram_token: ""
+
+cloudflare_api_key: #no quotes
+
+domain: #no quotes
+
+shadowsocks_password: #no quotes
+```
+
+### Yandex Cloud terraform provider. (Optional for the Docker usage)
 You can find [here](https://yandex.cloud/en/docs/tutorials/infrastructure-management/terraform-quickstart) where how to set up the Yandex Cloud Terraform provider, but I will summarise it here:
 
 First is necessary to install yc (yandex cloud) cli. Check [here](https://yandex.cloud/en/docs/cli/operations/install-cli) where how to install in depending on your OS.
@@ -49,7 +73,7 @@ export YC_CLOUD_ID=$(yc config get cloud-id)
 export YC_FOLDER_ID=$(yc config get folder-id)
 ```
 
-### Variables.
+### Variables. (Not needed anymore)
 
 #### Terraform variables:
 Modify the **tf.tfvars** file with the values that you want to use.
@@ -75,7 +99,7 @@ export domain=
 ```
 
 
-### Terraform deployment.
+### Terraform deployment. (not needed anymore)
 Once you have the Yandex Cloud terraform provider and the env variables, you can run the following command to deploy the VM:
 
 ````

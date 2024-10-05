@@ -1,0 +1,3 @@
+networkid="{{networkid}}"
+subnetid="{{subnetid}}""
+vmname="vm-00"
