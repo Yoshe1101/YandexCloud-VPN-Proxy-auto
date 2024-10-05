@@ -1,0 +1,9 @@
+cloud_id: ""
+folder_id: ""
+defaul_zone: ""
+networkid: ""
+subnetid: ""
+telegram_token: ""
+cloudflare_api_key: #no quotes
+domain: #no quotes
+shadowsocks_password: #no quotes
